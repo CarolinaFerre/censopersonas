@@ -1,0 +1,225 @@
+package censopersonas;
+import java.util.Scanner;
+
+public class persona {
+	static Scanner sc=new Scanner(System.in);
+	//Constantes
+	protected final static char sexo_def='H';
+	static double pesoideal;
+	static int muydelgado=-1;
+	static int estasgenial=0;
+	static int estasgordito=1;
+	static boolean mayordeedad=false;
+	static char letradni;
+	static String numerodni;
+	//Atributos
+	private int edad;
+	private String nombre;
+	public String DNI;
+	private double peso;
+	private double altura;
+	private char sexo;
+	
+	//constructor todo con valores por defecto
+	public persona() {
+		this("",0,sexo_def,0,0);
+	}
+	//constructor con nombre, edad y sexo por parámetro y altura y peso por defecto
+	public persona(String nombre,int edad,char sexo) {
+		this(nombre,edad,sexo,0,0);
+	}
+	
+	//Constructor con atributos de la superclase por parámetro todos
+	public persona(String nombre,int edad,char sexo2,double peso2, double altura2){
+		
+		this.nombre=nombre;
+		this.edad=edad;
+		comprobarSexo(sexo2);
+		generarDNI();
+		this.peso=peso2;
+		this.altura=altura2;
+		
+	}
+	//función que dice si tienes el peso ideal o no
+	public void calcularIMC(double altura,double peso) {
+		pesoideal=peso / (Math.pow(altura, 2));
+		if (pesoideal<20) {
+			System.out.println("Esta por debajo de su peso ideal");
+		}else if ((pesoideal>=20)||(pesoideal<=25)) {
+			System.out.println("Esta en su peso ideal");
+		}else if (pesoideal>25) {
+			System.out.println("Esta por encima de su peso ideal");
+		}
+		
+	}
+	//función que indica si eres mayor de edad o no
+	public boolean mayorEdad(int edad) {
+		
+		if (edad>=18){
+			return mayordeedad=true;
+		}else {
+			return mayordeedad=false;
+		}
+	}
+	//función que comprueba el sexo, sino marca el de defecto
+	public char comprobarSexo(char sexo) {
+		if ((sexo=='H')||(sexo=='M')) {
+			this.sexo=sexo;
+			return sexo;
+		}else {
+		return sexo_def;
+		}
+	}
+	//función que genera dni
+	public void generarDNI() {
+		int divisor=23;
+		int numDNI = ((int) Math.floor(Math.random() * (100000000 - 10000000) + 10000000));
+		int res = (numDNI - (numDNI / divisor * divisor));
+		letradni=generarletradni(res);
+		numerodni=Integer.toString(numDNI)+letradni;
+		System.out.println("Su número de dni es= ..."+numerodni);
+		
+	}
+	//función que genera letra de dni en función del resultado del número de dni que actúa como posición del array
+		public char generarletradni(int res) {
+			char letras[] = {'T', 'R', 'W', 'A', 'G', 'M', 'Y',
+		            'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z',
+		            'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
+			return letras[res];
+		}
+		//getter y setter de todos los atributos menos dni
+		public int getEdad() {
+			return edad;
+		}
+		public void setEdad(int edad) {
+			this.edad = edad;
+		}
+		public String getNombre() {
+			return nombre;
+		}
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+		public double getPeso() {
+			return peso;
+		}
+		public void setPeso(double peso) {
+			this.peso = peso;
+		}
+		public double getAltura() {
+			return altura;
+		}
+		public void setAltura(double altura) {
+			this.altura = altura;
+		}
+		public char getSexo() {
+			return sexo;
+		}
+		public char setSexo(char sexo) {
+			return this.sexo = sexo;
+		}
+	
+	public static void main(String[]args) {
+		System.out.println("***********BIENVENIDO AL CENSO DE PERSONAS DEL MUNICIPIO JAVA***********");
+		
+		//creación de objeto y variables de persona 1
+		System.out.println("Para la primera persona indica los siguientes datos:");
+		System.out.println("Indica el nombre...");
+		String nombre1=sc.next();
+		System.out.println("Indica la edad...");
+		int edad1=sc.nextInt();
+		System.out.println("Indica el sexo[H=HOMBRE o M=MUJER]");
+		char sexo1=sc.next().charAt(0);
+		System.out.println("Indica el peso...");
+		double peso1=sc.nextDouble();
+		System.out.println("Indica la altura...");
+		double altura1=sc.nextDouble();
+		
+		persona persona1=new persona(nombre1,edad1,sexo1,peso1,altura1);
+		
+		System.out.println("******************************************");
+		
+		//creación de objeto y variables de persona 2
+		System.out.println("Para la segunda persona indica los siguientes datos:");
+		System.out.println("Indica el nombre...");
+		String nombre2=sc.next();
+		System.out.println("Indica la edad...");
+		int edad2=sc.nextInt();
+		System.out.println("Indica el sexo[HOMBRE o MUJER");
+		char sexo2=sc.next().charAt(0);
+		
+		persona persona2=new persona(nombre2,edad2,sexo2,90.5,1.80);
+		
+
+		System.out.println("******************************************");
+		
+		//creación de objeto y variables de persona 3
+		
+		System.out.println("La persona 3 tiene los valores por defecto");
+		persona persona3=new persona("Pablo",12,sexo_def,50,140);
+		
+		
+		System.out.println("************DATOS DE PRIMERA PERSONA***********");
+		
+		//calcular peso persona1
+		System.out.println("Los resultados de peso de la primera persona son...");
+		persona1.calcularIMC(altura1, peso1);
+		
+		
+		//calcular mayoría de edad persona1
+		
+		System.out.println("A continuación vemos si la primera persona es mayor de edad (true) o menor de edad (false)= "+persona1.mayorEdad(edad1));
+		
+		//comprobar sexo de persona1
+		
+		System.out.println("El sexo de la primera persona es= ..."+persona1.comprobarSexo(sexo1));
+		
+		//generar dni de persona1
+		
+		System.out.println("Finalmente se genera el dni de la primera persona...");
+		persona1.generarDNI();
+		
+		System.out.println("************DATOS DE SEGUNDA PERSONA***********");
+		
+		//calcular peso persona2
+		
+		System.out.println("Los resultados de peso de la segunda persona son...");
+		persona2.calcularIMC(90.5, 1.80);
+				
+		//calcular mayoría de edad persona2
+				
+		System.out.println("A continuación vemos si la segunda persona es mayor de edad (true) o menor de edad (false)= "+persona2.mayorEdad(edad2));
+				
+		//comprobar sexo de persona2
+				
+		System.out.println("El sexo de la segunda persona es= ..."+persona2.comprobarSexo(sexo2));
+				
+		//generar dni de persona2
+				
+		System.out.println("Finalmente se genera el dni de la segunda persona...");
+		persona2.generarDNI();
+		
+		System.out.println("************DATOS DE TERCERA PERSONA***********");
+		
+		//calcular peso persona3
+		
+		System.out.println("Los resultados de peso de la tercera persona son...");
+		persona3.calcularIMC(50,140);
+						
+		//calcular mayoría de edad persona3
+						
+		System.out.println("A continuación vemos si la tercera persona es mayor de edad (true) o menor de edad (false)= "+persona3.mayorEdad(0));
+						
+		//comprobar sexo de persona3
+						
+		System.out.println("El sexo de la tercera persona es= ..."+persona3.comprobarSexo(sexo_def));
+						
+		//generar dni de persona3
+						
+		System.out.println("Finalmente se genera el dni de la tercera persona...");
+		persona3.generarDNI();
+		
+		System.out.println("***************FIN DEL CENSO************");
+	}
+
+}
